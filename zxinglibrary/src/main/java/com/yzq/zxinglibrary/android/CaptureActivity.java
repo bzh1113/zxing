@@ -182,10 +182,10 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
         if (flashState == Constant.FLASH_OPEN) {
             flashLightIv.setImageResource(R.drawable.ic_open);
-            flashLightTv.setText("关闭闪光灯");
+            flashLightTv.setText(R.string.close_flash);
         } else {
             flashLightIv.setImageResource(R.drawable.ic_close);
-            flashLightTv.setText("打开闪光灯");
+            flashLightTv.setText(R.string.open_flash);
         }
 
     }
@@ -274,6 +274,8 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
     @Override
     protected void onPause() {
+
+        Log.i("CaptureActivity","onPause");
         if (handler != null) {
             handler.quitSynchronously();
             handler = null;
@@ -292,6 +294,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     @Override
     protected void onDestroy() {
         inactivityTimer.shutdown();
+        viewfinderView.stopAnimator();
         super.onDestroy();
     }
 
@@ -343,6 +346,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         if (requestCode == Constant.REQUEST_IMAGE && resultCode == RESULT_OK) {
             String path = ImageUtil.getImageAbsolutePath(this, data.getData());
 
+
             new DecodeImgThread(path, new DecodeImgCallback() {
                 @Override
                 public void onImageDecodeSuccess(Result result) {
@@ -351,7 +355,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
 
                 @Override
                 public void onImageDecodeFailed() {
-                    Toast.makeText(CaptureActivity.this, "抱歉，解析失败,换个图片试试.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CaptureActivity.this, R.string.scan_failed_tip, Toast.LENGTH_SHORT).show();
                 }
             }).run();
 

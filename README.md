@@ -1,8 +1,13 @@
+[![](https://jitpack.io/v/yuzhiqiang1993/zxing.svg)](https://jitpack.io/#yuzhiqiang1993/zxing)
+
 # zxing
 一句话依赖就能实现扫一扫功能，包含闪光灯开关，选取本地图片解析，生成二维码(可带logo)功能等。
 
-更新日志：
-https://github.com/yuzhiqiang1993/zxing/wiki/update-log
+如果直接依赖不满足你的需求，需要自己修改样式或源码的话，可以将该库作为module集成到你的项目中，集成方法参考我的这篇博客：https://blog.csdn.net/yuzhiqiang_1993/article/details/52805057
+
+
+版本说明：
+https://github.com/yuzhiqiang1993/zxing/releases
 
 博客： http://blog.csdn.net/yuzhiqiang_1993/article/details/78292004
 
@@ -16,16 +21,17 @@ https://github.com/yuzhiqiang1993/zxing/wiki/update-log
 ========
 
 
-下图分别为 扫描二维码，扫描条码，闪光灯，解析二维码图片，解析条码图片，生成二维码,修改扫描框四个角的颜色，修改扫描框边线颜色
+下图分别为 完整示例，扫描二维码，扫描条码，闪光灯，解析二维码图片，解析条码图片，生成二维码,修改扫描框四个角的颜色，修改扫描框边线颜色
 ------------------------
+
 ![扫描二维码](https://github.com/yuzhiqiang1993/zxing/blob/master/img/scanEwm.gif "扫描二维码")
 ![扫描条码](https://github.com/yuzhiqiang1993/zxing/blob/master/img/scanTm.gif "扫描条码")
 ![闪光灯](https://github.com/yuzhiqiang1993/zxing/blob/master/img/flashlight.gif "闪光灯")
 ![解析二维码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/decodeEWM.gif "解析二维码图片")
 ![解析条码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/decodeTM.gif "解析条码图片")
 ![生成二维码图片](https://github.com/yuzhiqiang1993/zxing/blob/master/img/createEwm.gif "生成二维码图片")
-![修改边角颜色](https://github.com/yuzhiqiang1993/zxing/blob/master/img/edit_react_color.gif "修改边角颜色")
-![修改边线颜色](https://github.com/yuzhiqiang1993/zxing/blob/master/img/edit_frameline_color.gif "修改边线颜色")
+
+
 
 >
 使用方法
@@ -34,7 +40,8 @@ https://github.com/yuzhiqiang1993/zxing/wiki/update-log
 
 1.添加依赖
 --------------------
-先在 build.gradle(Project:XXXX) 的 repositories 添加:
+先在 build.gradle(Project:XXXX) 的 repositories 添加``` maven { url 'https://jitpack.io' }```
+一定要加上这个，否则会提示依赖失败
 
 ```
 allprojects {
@@ -49,14 +56,14 @@ allprojects {
 然后在 build.gradle(Module:app) 的 dependencies 添加:
 
 最新版本：https://github.com/yuzhiqiang1993/zxing/releases
-
+[![](https://jitpack.io/v/yuzhiqiang1993/zxing.svg)](https://jitpack.io/#yuzhiqiang1993/zxing)
  ```
  dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.1.0'
     
     /*添加依赖*/
-    implementation 'com.github.yuzhiqiang1993:zxing:2.2.1'
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.5'
 }
 
  
@@ -147,14 +154,7 @@ startActivityForResult(intent, REQUEST_CODE_SCAN);
 5.生成二维码
 -------------------------------
 ```
-                String contentEtString = contentEt.getText().toString().trim();
-                
-                if (TextUtils.isEmpty(contentEtString)) {
-                    Toast.makeText(this, "contentEtString不能为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Bitmap bitmap = null;
-                try {
+         
                     /*
                     * contentEtString：字符串内容
                     * w：图片的宽
@@ -164,11 +164,8 @@ startActivityForResult(intent, REQUEST_CODE_SCAN);
 
                     Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                     bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-                
-
+             
+              
 ```
 >
 

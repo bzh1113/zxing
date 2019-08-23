@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.WriterException;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button encodeBtn;
     private ImageView contentIv;
     private Toolbar toolbar;
+    private Button fragScanBtn;
     private int REQUEST_CODE_SCAN = 111;
     /**
      * 生成带logo的二维码
@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*生成的图片*/
         contentIv = findViewById(R.id.contentIv);
 
+        fragScanBtn = findViewById(R.id.fragScanBtn);
+        fragScanBtn.setOnClickListener(this);
+
         toolbar = findViewById(R.id.toolbar);
 
         toolbar.setTitle("扫一扫");
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+
         Bitmap bitmap = null;
         switch (v.getId()) {
             case R.id.scanBtn:
@@ -110,15 +114,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                  * 设置扫描框颜色等
                                  * 也可以不传这个参数
                                  * */
-//                                ZxingConfig config = new ZxingConfig();
-//                                config.setPlayBeep(true);//是否播放扫描声音 默认为true
-//                                config.setShake(true);//是否震动  默认为true
-//                                config.setDecodeBarCode(true);//是否扫描条形码 默认为true
+                                ZxingConfig config = new ZxingConfig();
+                                // config.setPlayBeep(false);//是否播放扫描声音 默认为true
+                                //  config.setShake(false);//是否震动  默认为true
+                                // config.setDecodeBarCode(false);//是否扫描条形码 默认为true
 //                                config.setReactColor(R.color.colorAccent);//设置扫描框四个角的颜色 默认为白色
 //                                config.setFrameLineColor(R.color.colorAccent);//设置扫描框边框颜色 默认无色
 //                                config.setScanLineColor(R.color.colorAccent);//设置扫描线的颜色 默认白色
-//                                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
-//                                intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                                intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
                                 startActivityForResult(intent, REQUEST_CODE_SCAN);
                             }
                         })
@@ -143,13 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-
-                try {
-                    bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, null);
-
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
+                bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, null);
                 if (bitmap != null) {
                     contentIv.setImageBitmap(bitmap);
                 }
@@ -164,19 +162,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                bitmap = null;
-                try {
-                    Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                    bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
+                Bitmap logo = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                bitmap = CodeCreator.createQRCode(contentEtString, 400, 400, logo);
 
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
                 if (bitmap != null) {
                     contentIvWithLogo.setImageBitmap(bitmap);
                 }
 
                 break;
+
+            case R.id.fragScanBtn:
+                Intent intent = new Intent(this, FragmentActivity.class);
+                startActivity(intent);
+                break;
+
 
             default:
         }

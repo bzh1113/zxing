@@ -27,8 +27,8 @@ import java.util.concurrent.RejectedExecutionException;
 
 
 /*
-* 聚焦管理
-* */
+ * 聚焦管理
+ * */
 final class AutoFocusManager implements Camera.AutoFocusCallback {
 
     private static final String TAG = AutoFocusManager.class.getSimpleName();
@@ -38,7 +38,8 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
     private static final Collection<String> FOCUS_MODES_CALLING_AF;
 
     static {
-        FOCUS_MODES_CALLING_AF = new ArrayList<String>(2);
+        FOCUS_MODES_CALLING_AF = new ArrayList<String>();
+        FOCUS_MODES_CALLING_AF.add(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         FOCUS_MODES_CALLING_AF.add(Camera.Parameters.FOCUS_MODE_AUTO);
         FOCUS_MODES_CALLING_AF.add(Camera.Parameters.FOCUS_MODE_MACRO);
     }
@@ -66,7 +67,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
         if (!stopped && outstandingTask == null) {
             AutoFocusTask newTask = new AutoFocusTask();
             try {
-              //  newTask.execute();
+                //  newTask.execute();
                 newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 outstandingTask = newTask;
             } catch (RejectedExecutionException ree) {
